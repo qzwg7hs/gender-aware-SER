@@ -17,19 +17,40 @@ The GESCNNFS framework (Gender-Specific CNN with Feature Selection) is a fully a
 
 ## Repository Structure
 ```bash
-├── train/
-│   ├── train_gender_model.py        # Gender classification model
-│   ├── train_ser_model.py           # Main SER training pipeline
-│   ├── evaluate_model.py            # Evaluation scripts
-├── data/
-│   ├── RAVDESS.csv
-│   ├── EMO-DB.csv
-│   └── EMOVO.csv                    # Preprocessed features
+├── data/                                  # Preprocessed features
+│   ├── combined_speech_data.csv
+│   ├── featureEMOVO.csv
+│   ├── featureEmodb_Ek.csv
+│   └── featureNormal_Ek.csv               
+├── train/                          
+│   ├── EMODB/
+│   │   ├── EmoDB_gender_both.ipynb        # 80-20 train/test split
+│   │   ├── EmoDB_gender_female.ipynb           
+│   │   ├── EmoDB_gender_male.ipynb            
+│   │   ├── EmoDB_speaker_both.ipynb       # Speaker independent leave-one-out split
+│   │   ├── EmoDB_speaker_female.ipynb
+│   │   ├── EmoDB_speaker_male.ipynb
+│   ├── EMOVO/
+│   │   ├── EMOVO_gender_both.ipynb      
+│   │   ├── EMOVO_gender_female.ipynb    
+│   │   ├── EMOVO_gender_male.ipynb      
+│   │   ├── EMOVO_speaker_both.ipynb
+│   │   ├── EMOVO_speaker_female.ipynb
+│   │   ├── EMOVO_speaker_male.ipynb
+│   ├── RAVDESS/
+│   │   ├── ravdess_gender_both.ipynb        
+│   │   ├── ravdess_gender_female.ipynb           
+│   │   ├── ravdess_gender_male.ipynb           
+│   │   ├── ravdess_speaker_both.ipynb
+│   │   ├── ravdess_speaker_female.ipynb
+│   │   ├── ravdess_speaker_male.ipynb
+│   ├── gender.py                           # Gender classification model
 ├── utils/
-│   ├── feature_selection.py         # Fisher Score + RFE
-│   ├── data_split.py                # Leave-one-out and train/test
-│   ├── extract_features.py          # Librosa-based feature extraction
-│   └── plotting.py                  # Heatmap visualizations
+│   ├── EMODB_Writecsv.ipynb                # Feature extraction
+│   ├── EMOVO_Writecsv.ipynb
+│   ├── RAVDESS_Writecsv.ipynb
+│   ├── combine_csv.py                      # Helper function
+│   ├── diagram.py                          # Helper function for .wav visualization
 ├── README.md
 └── requirements.txt
 ```
@@ -40,7 +61,7 @@ Three publicly available datasets were used:
 | Dataset | Language | Emotions | Speakers | Samples |
 |--------|-----------|----------|----------|---------|
 | [RAVDESS](https://zenodo.org/record/1188976) | English | 8 (happy, sad, calm, angry, fearful, surprised, neutral, disgust) | 24 (12M/12F) | 1,440 |
-| [EMO-DB](http://emodb.bilderbar.info/) | German | 7 (anger, neutral, sadness, fear, happiness, disgust, boredom) | 10 (5M/5F) | 535 |
+| [EMO-DB](http://emodb.bilderbar.info/index-1280.html) | German | 7 (anger, boredom, anxiety, happiness, sadness, disgust, neutral) | 10 (5M/5F) | 535 |
 | [EMOVO](https://github.com/fp1acm8/SER/tree/main/data/EMOVO) | Italian | 7 (disgust, fear, anger, joy, surprise, sadness, neutral) | 6 (3M/3F) | 588 |
 
 ## Setup & Installation
@@ -127,7 +148,6 @@ python train/evaluate_model.py --dataset RAVDESS --mode gender_aware
 ## Metrics
 We used the following metrics for evaluation:
 - Accuracy: Percentage of correctly predicted emotion labels.
-- F1-Score: Harmonic mean of precision and recall, especially useful for imbalanced classes.
 - Confusion Matrices: Used for visualizing class-wise performance.
 
 ## Results Summary
@@ -136,16 +156,26 @@ We evaluated the model on three benchmark datasets under two configurations:
 - **CNN with Fisher Score only** (baseline)
 - **Gender-aware CNN + Fisher Score + RFE** (proposed method)
 
-| Dataset | Configuration | Accuracy (Female) | Accuracy (Male) | Overall Accuracy |
-|---------|----------------|-------------------|------------------|------------------|
-| RAVDESS | CNN + Fisher   | –                 | –                | 55.21%           |
-| RAVDESS | Gender + CNN + Fisher | **68.53%** | 63.89%         | 66.21%           |
-| EMO-DB  | CNN + Fisher   | –                 | –                | 78.50%           |
-| EMO-DB  | Gender + CNN + Fisher | **85.25%** | 80.43%         | 82.84%           |
-| EMOVO   | CNN + Fisher   | –                 | –                | 75.21%           |
-| EMOVO   | Gender + CNN + Fisher | **86.21%** | 84.75%         | 85.48%           |
+| Split Type       | Dataset | Configuration         | Model                       | Accuracy (%) |
+|------------------|---------|------------------------|-----------------------------|--------------|
+| 80–20            | RAVDESS | Both genders           | CNN + Fisher + RFE          | 55.21        |
+| 80–20            | RAVDESS | Female only            | Gender + CNN + Fisher + RFE | **68.53**    |
+| 80–20            | RAVDESS | Male only              | Gender + CNN + Fisher + RFE | 63.89        |
+| 80–20            | EMO-DB  | Both genders           | CNN + Fisher + RFE          | 78.50        |
+| 80–20            | EMO-DB  | Female only            | Gender + CNN + Fisher + RFE | **85.25**    |
+| 80–20            | EMO-DB  | Male only              | Gender + CNN + Fisher + RFE | 80.43        |
+| 80–20            | EMOVO   | Both genders           | CNN + Fisher + RFE          | 75.21        |
+| 80–20            | EMOVO   | Female only            | Gender + CNN + Fisher + RFE | **86.21**    |
+| 80–20            | EMOVO   | Male only              | Gender + CNN + Fisher + RFE | 84.75        |
+| Leave-one-out    | RAVDESS | Both genders           | CNN + Fisher + RFE          | 46.67        |
+| Leave-one-out    | RAVDESS | Female only            | Gender + CNN + Fisher + RFE | 63.33        |
+| Leave-one-out    | RAVDESS | Male only              | Gender + CNN + Fisher + RFE | 56.67        |
+| Leave-one-out    | EMO-DB  | Both genders           | CNN + Fisher + RFE          | 71.43        |
+| Leave-one-out    | EMO-DB  | Female only            | Gender + CNN + Fisher + RFE | **77.94**    |
+| Leave-one-out    | EMO-DB  | Male only              | Gender + CNN + Fisher + RFE | 74.55        |
+| Leave-one-out    | EMOVO   | Both genders           | CNN + Fisher + RFE          | 48.98        |
+| Leave-one-out    | EMOVO   | Female only            | Gender + CNN + Fisher + RFE | 37.76        |
+| Leave-one-out    | EMOVO   | Male only              | Gender + CNN + Fisher + RFE | 35.71        |
 
 - All evaluations use **5-fold cross-validation**.
 - Gender-aware preprocessing improves accuracy consistently across all datasets.
-
-
