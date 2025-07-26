@@ -114,11 +114,6 @@ If you wish to regenerate them from raw `.wav` files:
   utils/RAVDESS_Writecsv.ipynb
   ```
 
-Or use the combined CSV generation:
-```bash
-python utils/combine_csv.py
-```
-
 ---
 
 ### 2. Train Gender Classification Model
