@@ -91,39 +91,62 @@ The main dependencies are:
 
 ## Usage Instructions
 
-### 1. Feature Extraction
+### 1. Feature Extraction (Optional)
 
-If you'd like to extract features from raw `.wav` files (optional, as CSVs are provided):
+Preprocessed CSV feature files are already included in the `data/` directory.  
+If you wish to regenerate them from raw `.wav` files:
 
+- For EMO-DB:
+  Open and run:
+  ```
+  utils/EMODB_Writecsv.ipynb
+  ```
+
+- For EMOVO:
+  Open and run:
+  ```
+  utils/EMOVO_Writecsv.ipynb
+  ```
+
+- For RAVDESS:
+  Open and run:
+  ```
+  utils/RAVDESS_Writecsv.ipynb
+  ```
+
+Or use the combined CSV generation:
 ```bash
-python utils/extract_features.py --dataset_path path_to_audio --output_csv data/output.csv
+python utils/combine_csv.py
 ```
+
+---
 
 ### 2. Train Gender Classification Model
 
 ```bash
-python train/train_gender_model.py --data data/RAVDESS.csv
+python train/gender.py
 ```
+This model predicts speaker gender from audio features and is used to route samples into gender-specific SER pipelines.
 
-### 3. Train SER Model (Emotion Recognition)
+---
 
-Run the emotion classifier (gender-aware):
+### 3. Train & Evaluate Emotion Recognition Models
 
-```bash
-python train/train_ser_model.py --dataset RAVDESS --mode gender_aware
-```
+All model training and evaluation is done via Jupyter Notebooks organized by dataset and split strategy.
 
-Run the baseline CNN without gender separation:
+| Dataset | 80–20 Split                      | Leave-One-Out (Speaker Independent)      |
+|---------|----------------------------------|------------------------------------------|
+| EMO-DB  | `train/EMODB/EmoDB_gender_both.ipynb`<br>`EmoDB_gender_female.ipynb`<br>`EmoDB_gender_male.ipynb` | `EmoDB_speaker_both.ipynb`<br>`EmoDB_speaker_female.ipynb`<br>`EmoDB_speaker_male.ipynb` |
+| EMOVO   | `train/EMOVO/EMOVO_gender_both.ipynb`<br>`EMOVO_gender_female.ipynb`<br>`EMOVO_gender_male.ipynb` | `EMOVO_speaker_both.ipynb`<br>`EMOVO_speaker_female.ipynb`<br>`EMOVO_speaker_male.ipynb` |
+| RAVDESS | `train/RAVDESS/ravdess_gender_both.ipynb`<br>`ravdess_gender_female.ipynb`<br>`ravdess_gender_male.ipynb` | `ravdess_speaker_both.ipynb`<br>`ravdess_speaker_female.ipynb`<br>`ravdess_speaker_male.ipynb` |
 
-```bash
-python train/train_ser_model.py --dataset RAVDESS --mode baseline
-```
+Each notebook:
+- Loads the corresponding CSV file from `/data/`
+- Applies Fisher Score + RFE for feature selection
+- Trains a CNN model (gender-aware or baseline)
+- Outputs evaluation metrics (accuracy, confusion matrix, etc.)
 
-### 4. Evaluate Model Performance
-
-```bash
-python train/evaluate_model.py --dataset RAVDESS --mode gender_aware
-```
+---
 
 ## Methodology
 1. Feature Extraction:
