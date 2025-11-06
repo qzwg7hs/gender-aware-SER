@@ -1,6 +1,6 @@
 # Advances in Speech Emotion Recognition Using a CNN and Gender-Based Segmentation framework with Feature Selection Techniques
 
-This repository accompanies our research on enhancing Speech Emotion Recognition (SER) using a gender-aware framework that integrates Convolutional Neural Networks (CNNs) with advanced feature selection methods (Fisher Score and Feature Elimination). The study explores whether tailoring emotion classification to speaker gender improves model accuracy, generalization, and interoperability.
+This repository accompanies our research on enhancing Speech Emotion Recognition (SER) using a gender-aware framework that integrates Convolutional Neural Networks (CNNs) with advanced feature selection methods (Fisher Score and Recursive Feature Elimination). The study explores whether tailoring emotion classification to speaker gender improves model accuracy, generalization, and interoperability.
 
 ## Paper
 - Title: Advances in Speech Emotion Recognition Using CNNs with Feature Selection Techniques
@@ -20,37 +20,62 @@ The GESCNNFS framework (Gender-Specific CNN with Feature Selection) is a fully a
 ├── data/                                  # Preprocessed features
 │   ├── combined_speech_data.csv
 │   ├── featureEMOVO.csv
-│   ├── featureEmodb_Ek.csv
-│   └── featureNormal_Ek.csv               
-├── train/                          
+│   ├── featureEmodb.csv
+│   └── featureRavdess.csv
+│   │           
+├── train/
 │   ├── EMODB/
-│   │   ├── EmoDB_gender_both.ipynb        # 80-20 train/test split
-│   │   ├── EmoDB_gender_female.ipynb           
-│   │   ├── EmoDB_gender_male.ipynb            
-│   │   ├── EmoDB_speaker_both.ipynb       # Speaker independent leave-one-out split
+│   │   ├── emodb_gender_both/             # 80-20 split for both genders
+│   │   │   ├── Model_0.h5                 # Trained model for fold 0
+│   │   │   ├── X_train_fold0.npy
+│   │   │   ├── y_train_fold0.npy
+│   │   │   ├── X_test_fold0.npy
+│   │   │   ├── y_test_fold0.npy
+│   │   │   └── ... (folds 1-4)
+│   │   ├── emodb_gender_both_193/         # Same as above, using 193 features
+│   │   ├── emodb_gender_female/
+│   │   ├── emodb_gender_female_193/
+│   │   ├── emodb_gender_male/
+│   │   ├── emodb_gender_male_193/
+│   │   ├── emodb_speaker_both/            # Speaker-independent LOO splits
+│   │   ├── emodb_speaker_both_193/
+│   │   ├── emodb_speaker_female/
+│   │   ├── emodb_speaker_female_193/
+│   │   ├── emodb_speaker_male/
+│   │   ├── emodb_speaker_male_193/
+│   │   └── emodb_log_mel/                 # Log-mel CNN experiments
+│   │
+│   │   ├── EmoDB_gender_both.ipynb        # Notebooks for 80-20 split
+│   │   ├── EmoDB_gender_both_193.ipynb
+│   │   ├── EmoDB_gender_female.ipynb
+│   │   ├── EmoDB_gender_female_193.ipynb
+│   │   ├── EmoDB_gender_male.ipynb
+│   │   ├── EmoDB_gender_male_193.ipynb
+│   │   ├── EmoDB_speaker_both.ipynb       # Notebooks for LOO split
+│   │   ├── EmoDB_speaker_both_193.ipynb      
 │   │   ├── EmoDB_speaker_female.ipynb
+│   │   ├── EmoDB_speaker_female_193.ipynb
 │   │   ├── EmoDB_speaker_male.ipynb
-│   ├── EMOVO/
-│   │   ├── EMOVO_gender_both.ipynb      
-│   │   ├── EMOVO_gender_female.ipynb    
-│   │   ├── EMOVO_gender_male.ipynb      
-│   │   ├── EMOVO_speaker_both.ipynb
-│   │   ├── EMOVO_speaker_female.ipynb
-│   │   ├── EMOVO_speaker_male.ipynb
-│   ├── RAVDESS/
-│   │   ├── ravdess_gender_both.ipynb        
-│   │   ├── ravdess_gender_female.ipynb           
-│   │   ├── ravdess_gender_male.ipynb           
-│   │   ├── ravdess_speaker_both.ipynb
-│   │   ├── ravdess_speaker_female.ipynb
-│   │   ├── ravdess_speaker_male.ipynb
-│   ├── gender.py                           # Gender classification model
+│   │   ├── EmoDB_speaker_male_193.ipynb
+│   │   ├── EmoDB_log_mel.ipynb            # Log-mel CNN notebook
+│   │   └── EmoDB_mfcc_rf.ipynb            # Classical ML (SVM/RF) notebook
+│   │
+│   ├── EMOVO/                             # Same structure as EMODB
+│   │   ├── ...
+│   │
+│   ├── RAVDESS/                           # Same structure as EMODB
+│   │   ├── ...
+│   │
+│   ├── gender.py                          # Gender classification training code
+│   ├── gender_classification_model.h5     # Gender classification model
+│   ├── scaler.pkl                         # Saved feature scaler (for gender classification)
 ├── utils/
-│   ├── EMODB_Writecsv.ipynb                # Feature extraction
+│   ├── EMODB_Writecsv.ipynb               # Feature extraction
 │   ├── EMOVO_Writecsv.ipynb
 │   ├── RAVDESS_Writecsv.ipynb
-│   ├── combine_csv.py                      # Helper function
-│   ├── diagram.py                          # Helper function for .wav visualization
+│   ├── combine_csv.py                     # Helper function
+│   ├── diagram.py                         # Helper function for .wav visualization
+│   ├── statistical_testing.ipynb          # Paired t-tests for with vs. without gender recognition, 65% vs. 100% features
 ├── README.md
 └── requirements.txt
 ```
@@ -165,8 +190,15 @@ Each notebook:
     
 ## Metrics
 We used the following metrics for evaluation:
-- Accuracy: Percentage of correctly predicted emotion labels.
+- Accuracy: Percentage of correctly predicted emotion labels (Mean and Standard Deviation).
 - Confusion Matrices: Used for visualizing class-wise performance.
+
+## Statistical Testing
+The statistical_testing.ipynb notebook contains all paired statistical tests performed across experimental conditions:
+- Paired t-tests (ttest_rel): Used for comparing mean accuracies across folds for settings such as with vs. without gender branch.
+- Wilcoxon tests: Non-parametric alternative used for 65% vs. 100% feature comparisons.
+- Inputs: Model accuracies per fold or per speaker.
+- Outputs: p-values and test statistics, helping assess whether observed differences are statistically significant.
 
 ## Results Summary
 
