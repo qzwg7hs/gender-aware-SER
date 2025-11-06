@@ -1,4 +1,4 @@
-# Advances in Speech Emotion Recognition Using CNNs with Feature Selection Techniques
+# Advances in Speech Emotion Recognition1 Using a CNN and Gender-Based Segmentation framework with Feature Selection Techniques
 
 This repository accompanies our research on enhancing Speech Emotion Recognition (SER) using a gender-aware framework that integrates Convolutional Neural Networks (CNNs) with advanced feature selection methods (Fisher Score and Feature Elimination). The study explores whether tailoring emotion classification to speaker gender improves model accuracy, generalization, and interoperability.
 
