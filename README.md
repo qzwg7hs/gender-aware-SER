@@ -206,26 +206,27 @@ We evaluated the model on three benchmark datasets under two configurations:
 - **CNN with Fisher Score only** (baseline)
 - **Gender-aware CNN + Fisher Score + RFE** (proposed method)
 
-| Split Type       | Dataset | Configuration         | Model                       | Accuracy (%) |
-|------------------|---------|------------------------|-----------------------------|--------------|
-| 80–20            | RAVDESS | Both genders           | CNN + Fisher + RFE          | 55.21        |
-| 80–20            | RAVDESS | Female only            | Gender + CNN + Fisher + RFE | **68.53**    |
-| 80–20            | RAVDESS | Male only              | Gender + CNN + Fisher + RFE | 63.89        |
-| 80–20            | EMO-DB  | Both genders           | CNN + Fisher + RFE          | 78.50        |
-| 80–20            | EMO-DB  | Female only            | Gender + CNN + Fisher + RFE | **85.25**    |
-| 80–20            | EMO-DB  | Male only              | Gender + CNN + Fisher + RFE | 80.43        |
-| 80–20            | EMOVO   | Both genders           | CNN + Fisher + RFE          | 75.21        |
-| 80–20            | EMOVO   | Female only            | Gender + CNN + Fisher + RFE | **86.21**    |
-| 80–20            | EMOVO   | Male only              | Gender + CNN + Fisher + RFE | 84.75        |
-| Leave-one-out    | RAVDESS | Both genders           | CNN + Fisher + RFE          | 46.67        |
-| Leave-one-out    | RAVDESS | Female only            | Gender + CNN + Fisher + RFE | 63.33        |
-| Leave-one-out    | RAVDESS | Male only              | Gender + CNN + Fisher + RFE | 56.67        |
-| Leave-one-out    | EMO-DB  | Both genders           | CNN + Fisher + RFE          | 71.43        |
-| Leave-one-out    | EMO-DB  | Female only            | Gender + CNN + Fisher + RFE | **77.94**    |
-| Leave-one-out    | EMO-DB  | Male only              | Gender + CNN + Fisher + RFE | 74.55        |
-| Leave-one-out    | EMOVO   | Both genders           | CNN + Fisher + RFE          | 48.98        |
-| Leave-one-out    | EMOVO   | Female only            | Gender + CNN + Fisher + RFE | 37.76        |
-| Leave-one-out    | EMOVO   | Male only              | Gender + CNN + Fisher + RFE | 35.71        |
+| Split Type     | Dataset | Configuration | Model                       | Accuracy (%)        |
+|---------------|---------|---------------|-----------------------------|---------------------|
+| 80–20         | RAVDESS | Both genders  | CNN + Fisher + RFE          | 55.62 ± 3.49        |
+| 80–20         | RAVDESS | Female only   | Gender + CNN + Fisher + RFE | 66.29 ± 5.05        |
+| 80–20         | RAVDESS | Male only     | Gender + CNN + Fisher + RFE | 70.37 ± 4.75        |
+| 80–20         | EMO-DB  | Both genders  | CNN + Fisher + RFE          | 74.77 ± 1.87        |
+| 80–20         | EMO-DB  | Female only   | Gender + CNN + Fisher + RFE | 80.00 ± 3.80        |
+| 80–20         | EMO-DB  | Male only     | Gender + CNN + Fisher + RFE | 80.43 ± 5.14        |
+| 80–20         | EMOVO   | Both genders  | CNN + Fisher + RFE          | 72.11 ± 2.98        |
+| 80–20         | EMOVO   | Female only   | Gender + CNN + Fisher + RFE | 77.19 ± 5.22        |
+| 80–20         | EMOVO   | Male only     | Gender + CNN + Fisher + RFE | 84.35 ± 4.49        |
+| Leave-one-out | RAVDESS | Both genders  | CNN + Fisher + RFE          | 41.00 ± 5.64        |
+| Leave-one-out | RAVDESS | Female only   | Gender + CNN + Fisher + RFE | 49.00 ± 8.27        |
+| Leave-one-out | RAVDESS | Male only     | Gender + CNN + Fisher + RFE | 42.33 ± 8.86        |
+| Leave-one-out | EMO-DB  | Both genders  | CNN + Fisher + RFE          | 67.81 ± 10.59       |
+| Leave-one-out | EMO-DB  | Female only   | Gender + CNN + Fisher + RFE | 65.42 ± 9.82        |
+| Leave-one-out | EMO-DB  | Male only     | Gender + CNN + Fisher + RFE | 68.85 ± 5.04        |
+| Leave-one-out | EMOVO   | Both genders  | CNN + Fisher + RFE          | 32.65 ± 6.22        |
+| Leave-one-out | EMOVO   | Female only   | Gender + CNN + Fisher + RFE | 28.57 ± 3.82        |
+| Leave-one-out | EMOVO   | Male only     | Gender + CNN + Fisher + RFE | 39.94 ± 7.14        |
+
 
 - All evaluations use **5-fold cross-validation**.
 - Gender-aware preprocessing improves accuracy consistently across all datasets.
