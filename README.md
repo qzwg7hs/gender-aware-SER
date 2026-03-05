@@ -188,7 +188,7 @@ Each notebook:
      - 80/20 train/test split.
      - Leave-One-Out Cross Validation (LOOCV).
 
-## Feature Selection Experiments (50%, 65%, 75%, etc.)
+## Feature Selection Experiments (50%, 65%, 75%, 85%, 100%)
 
 Before finalizing the proposed **65% feature retention strategy**, extensive experiments were conducted to determine the optimal percentage of selected features after Fisher Score ranking.
 
