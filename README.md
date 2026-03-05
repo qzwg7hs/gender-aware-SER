@@ -188,39 +188,6 @@ Each notebook:
      - 80/20 train/test split.
      - Leave-One-Out Cross Validation (LOOCV).
 
-## Feature Selection Experiments (50%, 65%, 75%, 85%, 100%)
-
-Before finalizing the proposed **65% feature retention strategy**, extensive experiments were conducted to determine the optimal percentage of selected features after Fisher Score ranking.
-
-Different retention rates were evaluated, including:
-
-- 50%
-- 65%
-- 75%
-- 85%
-- 100% (no Feature Selection)
-
-Each configuration was systematically tested to analyze the trade-off between dimensionality reduction and classification accuracy across datasets.
-
-The complete implementation of these comparative experiments — including separate Jupyter Notebooks for each configuration — is available in the co-author’s repository:
-
-**SER Feature Selection Experiments Repository**  
-https://github.com/esevinc/SER  
-Folder: `codes/`
-
-This repository contains:
-
-- Individual `.ipynb` notebooks for each feature retention ratio  
-- Performance comparisons across datasets  
-- Experimental results that justify selecting **65% of features** as the optimal configuration  
-
-The findings from these experiments motivated the use of:
-
-> **Fisher Score + RFE retaining 65% of features**
-
-in the final GESCNNFS framework presented in this repository.
-
-
 ## Metrics
 We used the following metrics for evaluation:
 - Accuracy: Percentage of correctly predicted emotion labels (Mean and Standard Deviation).
