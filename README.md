@@ -198,7 +198,7 @@ Different retention rates were evaluated, including:
 - 65%
 - 75%
 - 85%
-- 100% (no RFE)
+- 100% (no Feature Selection)
 
 Each configuration was systematically tested to analyze the trade-off between dimensionality reduction and classification accuracy across datasets.
 
@@ -211,7 +211,6 @@ Folder: `codes/`
 This repository contains:
 
 - Individual `.ipynb` notebooks for each feature retention ratio  
-- Recursive Feature Elimination (RFE) implementations  
 - Performance comparisons across datasets  
 - Experimental results that justify selecting **65% of features** as the optimal configuration  
 
