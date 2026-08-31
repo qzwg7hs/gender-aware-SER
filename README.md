@@ -5,6 +5,7 @@ This repository accompanies our research on enhancing Speech Emotion Recognition
 ## Paper
 - Title: Advances in Speech Emotion Recognition Using CNNs with Feature Selection Techniques
 - Authors: Tayfun Kucukyilmaz, Aruay Amangeldi, Ender Sevinc, Benjamin Tyler, Ahmet Cosar, Adnan Yazici
+- https://doi.org/10.7717/peerj-cs.4016
 
 ## Project Overview
 The GESCNNFS framework (Gender-Specific CNN with Feature Selection) is a fully automated pipeline that:
